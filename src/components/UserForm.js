@@ -1,18 +1,36 @@
-import React, { Component } from 'react';
-import FormUserDetails from './FormUserDetails';
-import FormPersonalDetails from './FormPersonalDetails';
-import Confirm from './Confirm';
-import Success from './Success';
+import React, { Component } from "react";
+import UserAdress from "./UserAdress";
+import CustomerDetails from "./CustomerDetails";
+import Date from "./Date";
+import Success from "./Success";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import "../App.css";
 
 export class UserForm extends Component {
   state = {
     step: 1,
-    firstName: '',
-    lastName: '',
-    email: '',
-    occupation: '',
-    city: '',
-    bio: ''
+    logo: "",
+    name: "",
+    number: "",
+    street: "",
+    zip: "",
+    city: "",
+    country: "",
+    kvk: "",
+    btw: "",
+    nameCustomer: "",
+    streetCustomer: "",
+    numberCustomer: "",
+    zipCustomer: "",
+    cityCustomer: "",
+    countryCustomer: "",
+    date: ""
+  };
+
+  // handle date change
+  handleDateChange = date => {
+    this.setState({ date: date });
   };
 
   // Proceed to next step
@@ -31,6 +49,10 @@ export class UserForm extends Component {
     });
   };
 
+  getSteps = () => {
+    return ["Select campaign settings", "Create an ad group", "Create an ad"];
+  };
+
   // Handle fields change
   handleChange = input => e => {
     this.setState({ [input]: e.target.value });
@@ -38,13 +60,49 @@ export class UserForm extends Component {
 
   render() {
     const { step } = this.state;
-    const { firstName, lastName, email, occupation, city, bio } = this.state;
-    const values = { firstName, lastName, email, occupation, city, bio };
+
+    const {
+      logo,
+      name,
+      number,
+      street,
+      zip,
+      city,
+      country,
+      kvk,
+      btw,
+      nameCustomer,
+      streetCustomer,
+      numberCustomer,
+      zipCustomer,
+      cityCustomer,
+      countryCustomer,
+      date
+    } = this.state;
+    const values = {
+      step,
+      logo,
+      name,
+      number,
+      street,
+      zip,
+      city,
+      country,
+      kvk,
+      btw,
+      nameCustomer,
+      streetCustomer,
+      numberCustomer,
+      zipCustomer,
+      cityCustomer,
+      countryCustomer,
+      date
+    };
 
     switch (step) {
       case 1:
         return (
-          <FormUserDetails
+          <UserAdress
             nextStep={this.nextStep}
             handleChange={this.handleChange}
             values={values}
@@ -52,7 +110,7 @@ export class UserForm extends Component {
         );
       case 2:
         return (
-          <FormPersonalDetails
+          <CustomerDetails
             nextStep={this.nextStep}
             prevStep={this.prevStep}
             handleChange={this.handleChange}
@@ -61,10 +119,11 @@ export class UserForm extends Component {
         );
       case 3:
         return (
-          <Confirm
+          <Date
             nextStep={this.nextStep}
             prevStep={this.prevStep}
             values={values}
+            handleDateChange={this.handleDateChange}
           />
         );
       case 4:
